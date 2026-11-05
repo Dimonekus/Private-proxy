@@ -1,0 +1,10 @@
+{
+  "targets": [
+    { "name": "YouTube", "url": "https://www.youtube.com/generate_204" },
+    { "name": "YouTube web", "url": "https://www.youtube.com" },
+    { "name": "Discord", "url": "https://discord.com" },
+    { "name": "Discord gateway", "url": "https://gateway.discord.gg" },
+    { "name": "Google", "url": "https://www.google.com/generate_204" },
+    { "name": "Googlevideo", "url": "https://redirector.googlevideo.com/generate_204" }
+  ]
+}

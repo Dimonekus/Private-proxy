@@ -1,0 +1,17 @@
+# Build output
+bin/
+obj/
+artifacts/
+*.user
+*.suo
+*.cache
+.vs/
+
+# Engine binaries are downloaded and hash-verified, never committed.
+# Run: powershell -ExecutionPolicy Bypass -File scripts/fetch-engine.ps1
+engine/bin/
+
+# Local logs and temporary files
+*.log
+*.tmp
+*.part

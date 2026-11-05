@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "version": "zapret-winws@bb6a20a + fakes@176f56d",
+  "source": {
+    "repository": "https://github.com/bol-van/zapret-win-bundle",
+    "commit": "bb6a20af35ed74778eb669f5413990eb8209c711",
+    "license": "GPL-3.0 (zapret) / LGPL-3.0 (WinDivert)",
+    "downloadedFrom": "raw.githubusercontent.com"
+  },
+  "files": [
+    {
+      "path": "winws.exe",
+      "url": "https://raw.githubusercontent.com/bol-van/zapret-win-bundle/bb6a20af35ed74778eb669f5413990eb8209c711/zapret-winws/winws.exe",
+      "sha256": "2da71e80878dc270ac83f5893ecbb841f9752a57f1da8ff9325636b4346bc632",
+      "size": 223232
+    },
+    {
+      "path": "WinDivert.dll",
+      "url": "https://raw.githubusercontent.com/bol-van/zapret-win-bundle/bb6a20af35ed74778eb669f5413990eb8209c711/zapret-winws/WinDivert.dll",
+      "sha256": "16abd6a029e65557c6a309bea7b13bf81fff4e193567582e1cddbf6719f323e0",
+      "size": 47616
+    },
+    {
+      "path": "WinDivert64.sys",
+      "url": "https://raw.githubusercontent.com/bol-van/zapret-win-bundle/bb6a20af35ed74778eb669f5413990eb8209c711/zapret-winws/WinDivert64.sys",
+      "sha256": "8da085332782708d8767bcace5327a6ec7283c17cfb85e40b03cd2323a90ddc2",
+      "size": 94144
+    },
+    {
+      "path": "cygwin1.dll",
+      "url": "https://raw.githubusercontent.com/bol-van/zapret-win-bundle/bb6a20af35ed74778eb669f5413990eb8209c711/zapret-winws/cygwin1.dll",
+      "sha256": "103104a52e5293ce418944725df19e2bf81ad9269b9a120d71d39028e821499b",
+      "size": 2954293
+    },
+    {
+      "path": "quic_initial_www_google_com.bin",
+      "url": "https://raw.githubusercontent.com/Flowseal/zapret-discord-youtube/176f56dc3f11ce5915c26abcdde903f93d835b64/bin/quic_initial_www_google_com.bin",
+      "sha256": "f4589c57749f956bb30538197a521d7005f8b0a8723b4707e72405e51ddac50a",
+      "size": 1200
+    },
+    {
+      "path": "ACTIVE_DISCORD_UDP.bin",
+      "url": "https://raw.githubusercontent.com/Flowseal/zapret-discord-youtube/176f56dc3f11ce5915c26abcdde903f93d835b64/bin/ACTIVE_DISCORD_UDP.bin",
+      "sha256": "2fe18b3bd20807d36704d0b072092ee49ae84edca907a4420ab9a0f0f28fddcf",
+      "size": 1200
+    },
+    {
+      "path": "tls_clienthello_www_google_com.bin",
+      "url": "https://raw.githubusercontent.com/Flowseal/zapret-discord-youtube/176f56dc3f11ce5915c26abcdde903f93d835b64/bin/tls_clienthello_www_google_com.bin",
+      "sha256": "936c2bee4cfb80aa3c426b2dcbcc834b3fbcd1adb17172959dc569c73a14275c",
+      "size": 681
+    },
+    {
+      "path": "tls_clienthello_4pda_to.bin",
+      "url": "https://raw.githubusercontent.com/Flowseal/zapret-discord-youtube/176f56dc3f11ce5915c26abcdde903f93d835b64/bin/tls_clienthello_4pda_to.bin",
+      "sha256": "eefeaf09dde8d69b1f176212541f63c68b314a33a335eced99a8a29f17254da8",
+      "size": 284
+    },
+    {
+      "path": "tls_clienthello_www_sferum_ru.bin",
+      "url": "https://raw.githubusercontent.com/Flowseal/zapret-discord-youtube/176f56dc3f11ce5915c26abcdde903f93d835b64/bin/tls_clienthello_www_sferum_ru.bin",
+      "sha256": "e6dd8d724eecc6a7340bf64e2ebec81c60bc4e078c6f702b4b6ba9bf184180ad",
+      "size": 661
+    }
+  ]
+}

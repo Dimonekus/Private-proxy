@@ -1,0 +1,236 @@
+﻿<Window x:Class="PrivateProxy.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Private Proxy"
+        Width="1060" Height="740"
+        MinWidth="920" MinHeight="640"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource Bg}"
+        FontFamily="Segoe UI"
+        TextOptions.TextFormattingMode="Display">
+
+    <Grid Margin="22">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="14" />
+            <RowDefinition Height="196" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,18">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Private Proxy" FontSize="25" FontWeight="Bold" />
+                <TextBlock Style="{StaticResource MutedText}" Margin="0,3,0,0"
+                           Text="обход DPI · Discord, YouTube и другие сервисы" />
+            </StackPanel>
+
+            <Border Grid.Column="1" Background="{StaticResource Panel}" CornerRadius="12"
+                    BorderBrush="{StaticResource Border}" BorderThickness="1" Padding="16,10">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Ellipse Width="10" Height="10" Fill="{Binding StatusBrush}" VerticalAlignment="Center" />
+                    <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding StatusText}" FontWeight="SemiBold" FontSize="13" />
+                        <TextBlock Text="{Binding StatusDetail}" Style="{StaticResource MutedText}"
+                                   MaxWidth="330" TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Main content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.25*" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Strategy list -->
+            <Border Grid.Column="0" Background="{StaticResource Panel}" CornerRadius="14"
+                    BorderBrush="{StaticResource Border}" BorderThickness="1" Padding="16">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="0,0,0,12">
+                        <TextBlock Text="Стратегии" FontSize="15" FontWeight="SemiBold" />
+                        <TextBlock Style="{StaticResource MutedText}" HorizontalAlignment="Right"
+                                   VerticalAlignment="Center" Text="нажмите, чтобы выбрать" />
+                    </Grid>
+
+                    <ListBox Grid.Row="1"
+                             ItemsSource="{Binding Strategies}"
+                             SelectedItem="{Binding SelectedStrategy, Mode=TwoWay}"
+                             Style="{StaticResource PlainListBox}"
+                             ItemContainerStyle="{StaticResource StrategyItem}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold" />
+                                        <Border Grid.Column="1" Background="#243354" CornerRadius="6" Padding="7,2"
+                                                VerticalAlignment="Center">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Recommended}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="рекомендуется" FontSize="10" Foreground="#8FB0FF" />
+                                        </Border>
+                                    </Grid>
+                                    <TextBlock Text="{Binding DisplayCategory}" Style="{StaticResource MutedText}"
+                                               Margin="0,3,0,0" FontSize="10.5" />
+                                    <TextBlock Text="{Binding Description}" Foreground="#A8B1C7" FontSize="12"
+                                               TextWrapping="Wrap" Margin="0,6,0,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Border>
+
+            <!-- Control panel -->
+            <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel>
+
+                    <Border Background="{StaticResource Panel}" CornerRadius="14"
+                            BorderBrush="{StaticResource Border}" BorderThickness="1" Padding="16">
+                        <StackPanel>
+                            <TextBlock Text="Управление" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,12" />
+
+                            <Grid Margin="0,0,0,6">
+                                <TextBlock Text="Движок" Style="{StaticResource MutedText}" FontSize="12" />
+                                <Button Content="проверить" Style="{StaticResource LinkButton}"
+                                        HorizontalAlignment="Right" Click="RefreshEngine_Click" />
+                            </Grid>
+                            <TextBlock Text="{Binding EngineText}" TextWrapping="Wrap" FontSize="12"
+                                       Foreground="#B7C0D6" Margin="0,0,0,4" />
+                            <TextBlock Text="{Binding AdminText}" Style="{StaticResource MutedText}" FontSize="11" />
+
+                            <Border Height="1" Background="{StaticResource Border}" Margin="0,12" />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0" Content="Запустить" Style="{StaticResource AccentButton}"
+                                        IsEnabled="{Binding CanStart}" Click="Start_Click" />
+                                <Button Grid.Column="2" Content="Остановить" Style="{StaticResource DangerButton}"
+                                        IsEnabled="{Binding IsRunning}" Click="Stop_Click" />
+                            </Grid>
+
+                            <Button Content="Тест стратегий" Style="{StaticResource BaseButton}" Margin="0,10,0,0"
+                                    IsEnabled="{Binding CanTest}" Click="Test_Click" />
+
+                            <TextBlock Text="{Binding TestStatus}" Style="{StaticResource MutedText}"
+                                       TextWrapping="Wrap" Margin="0,10,0,0" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{StaticResource Panel}" CornerRadius="14" Margin="0,14,0,0"
+                            BorderBrush="{StaticResource Border}" BorderThickness="1" Padding="16">
+                        <StackPanel>
+                            <TextBlock Text="Настройки" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,12" />
+
+                            <CheckBox Content="Перезапускать при падении" IsChecked="{Binding AutoRestart, Mode=TwoWay}"
+                                      Margin="0,0,0,10" />
+                            <CheckBox Content="Запускать стратегию при старте приложения"
+                                      IsChecked="{Binding StartOnLaunch, Mode=TwoWay}" Margin="0,0,0,10" />
+                            <CheckBox Content="Сворачивать окно в трей" IsChecked="{Binding MinimizeToTray, Mode=TwoWay}"
+                                      Margin="0,0,0,12" />
+
+                            <Button Content="{Binding AutostartButtonText}" Style="{StaticResource BaseButton}"
+                                    Click="Autostart_Click" />
+
+                            <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                <Button Content="Папка списков" Style="{StaticResource LinkButton}" Click="OpenLists_Click" />
+                                <Button Content="Папка логов" Style="{StaticResource LinkButton}" Click="OpenLogs_Click" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{StaticResource Panel}" CornerRadius="14" Margin="0,14,0,0"
+                            BorderBrush="{StaticResource Border}" BorderThickness="1" Padding="16">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TestResults.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <StackPanel>
+                            <TextBlock Text="Результаты теста" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,10" />
+                            <ItemsControl ItemsSource="{Binding TestResults}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{StaticResource Panel2}" CornerRadius="8" Padding="10,8"
+                                                Margin="0,0,0,6">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding StrategyName}" FontSize="12.5" FontWeight="SemiBold" />
+                                                <TextBlock Text="{Binding Summary}" FontSize="11.5" Margin="0,2,0,0">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Foreground" Value="{StaticResource Green}" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsSuccess}" Value="False">
+                                                                    <Setter Property="Foreground" Value="{StaticResource Amber}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- Log -->
+        <Border Grid.Row="3" Background="{StaticResource Panel}" CornerRadius="14"
+                BorderBrush="{StaticResource Border}" BorderThickness="1" Padding="14,12">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,8">
+                    <TextBlock Text="Журнал" FontSize="13" FontWeight="SemiBold" />
+                    <Button Content="очистить" Style="{StaticResource LinkButton}" HorizontalAlignment="Right"
+                            Click="ClearLog_Click" />
+                </Grid>
+
+                <ListBox x:Name="LogList" Grid.Row="1" ItemsSource="{Binding Logs}"
+                         Style="{StaticResource LogBox}" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
