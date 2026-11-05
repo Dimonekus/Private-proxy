@@ -228,8 +228,6 @@ public partial class MainWindow : Window
         {
             e.Cancel = true;
             Hide();
-            _tray.ShowBalloonTip(2000, "Private Proxy",
-                "Свёрнуто в трей. Обход продолжает работать.", Forms.ToolTipIcon.Info);
             return;
         }
 
