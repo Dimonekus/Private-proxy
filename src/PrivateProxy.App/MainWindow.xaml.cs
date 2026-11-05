@@ -48,6 +48,13 @@ public partial class MainWindow : Window
             ContextMenuStrip = menu
         };
         _tray.DoubleClick += (_, _) => ShowFromTray();
+        _tray.Click += (_, e) =>
+        {
+            if (e is Forms.MouseEventArgs { Button: Forms.MouseButtons.Left })
+            {
+                ShowFromTray();
+            }
+        };
 
         Loaded += OnLoaded;
     }
