@@ -57,3 +57,17 @@ betterttv.net
 localizeapi.com
 klipy.com
 live-video.net
+telegram.org
+telegram.me
+telegram.dog
+telegram.space
+telegram-cdn.org
+cdn-telegram.org
+t.me
+telegra.ph
+tg.dev
+telesco.pe
+tdesktop.com
+telegramdesktop.com
+comments.app
+fragment.com

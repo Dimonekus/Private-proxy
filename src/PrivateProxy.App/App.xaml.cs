@@ -41,7 +41,7 @@ public partial class App : Application
         var args = e.Args ?? [];
         bool Has(string value) => args.Any(a => string.Equals(a, value, StringComparison.OrdinalIgnoreCase));
 
-        var start = Has("--start") || Has("--autostart");
+        var start = Has("--start");
         var test = Has("--test");
         var minimized = Has("--autostart");
 

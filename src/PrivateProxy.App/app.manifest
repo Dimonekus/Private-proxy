@@ -2,11 +2,12 @@
 <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
   <assemblyIdentity version="1.0.0.0" name="PrivateProxy.app" />
 
-  <!-- The app runs unelevated; it asks for UAC only when the engine must start. -->
+  <!-- The engine needs a kernel driver, so the app always starts elevated and
+       asks for UAC once at launch instead of re-opening when the engine starts. -->
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
     <security>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
-        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
       </requestedPrivileges>
     </security>
   </trustInfo>

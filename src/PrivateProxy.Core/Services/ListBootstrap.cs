@@ -2,8 +2,9 @@ namespace PrivateProxy.Core.Services;
 
 /// <summary>
 /// Copies the shipped domain/IP lists into the writable user profile on first
-/// run. Missing files are always re-created so winws never fails on a dangling
-/// hostlist path.
+/// run and refreshes them when the bundled version changes (user "*-user.txt"
+/// files are preserved). Missing files are always re-created so winws never
+/// fails on a dangling hostlist path.
 /// </summary>
 public static class ListBootstrap
 {
@@ -19,15 +20,40 @@ public static class ListBootstrap
                 return;
             }
 
+            var seedVersion = ReadVersion(AppPaths.SeedListsVersionPath);
+            var installedVersion = ReadVersion(AppPaths.ListsVersionPath);
+            var refreshShipped = !string.IsNullOrEmpty(seedVersion)
+                                 && !string.Equals(seedVersion, installedVersion, StringComparison.Ordinal);
+
             foreach (var source in Directory.EnumerateFiles(AppPaths.SeedListsDir))
             {
                 var fileName = Path.GetFileName(source);
                 var destination = Path.Combine(AppPaths.ListsDir, fileName);
-                if (!File.Exists(destination))
+
+                // Files ending in "-user" belong to the user and are never
+                // overwritten by a shipped-list update.
+                if (IsUserList(fileName))
                 {
-                    File.Copy(source, destination);
-                    Log.Info($"Создан список {fileName}");
+                    if (!File.Exists(destination))
+                    {
+                        File.Copy(source, destination);
+                    }
+
+                    continue;
                 }
+
+                if (File.Exists(destination) && !refreshShipped)
+                {
+                    continue;
+                }
+
+                File.Copy(source, destination, overwrite: true);
+                Log.Info($"Списки обновлены: {fileName}");
+            }
+
+            if (refreshShipped)
+            {
+                File.WriteAllText(AppPaths.ListsVersionPath, seedVersion);
             }
 
             // These files are meant to be edited by the user; winws requires them
@@ -50,6 +76,21 @@ public static class ListBootstrap
         catch (Exception ex)
         {
             Log.Error("Не удалось подготовить списки", ex);
+        }
+    }
+
+    private static bool IsUserList(string fileName) =>
+        fileName.EndsWith("-user.txt", StringComparison.OrdinalIgnoreCase);
+
+    private static string ReadVersion(string path)
+    {
+        try
+        {
+            return File.Exists(path) ? File.ReadAllText(path).Trim() : "";
+        }
+        catch
+        {
+            return "";
         }
     }
 }

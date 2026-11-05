@@ -31,6 +31,12 @@ public static class AppPaths
     /// <summary>Writable copy of the domain/IP lists that winws actually reads.</summary>
     public static string ListsDir => Path.Combine(ConfigDir, "lists");
 
+    /// <summary>Version marker shipped next to the seed lists.</summary>
+    public static string SeedListsVersionPath => Path.Combine(DataDir, "lists.version");
+
+    /// <summary>Version of the lists currently installed in the user profile.</summary>
+    public static string ListsVersionPath => Path.Combine(ConfigDir, "lists.version");
+
     public static void EnsureCreated()
     {
         Directory.CreateDirectory(ConfigDir);

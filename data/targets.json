@@ -4,6 +4,8 @@
     { "name": "YouTube web", "url": "https://www.youtube.com" },
     { "name": "Discord", "url": "https://discord.com" },
     { "name": "Discord gateway", "url": "https://gateway.discord.gg" },
+    { "name": "Telegram", "url": "https://web.telegram.org" },
+    { "name": "Telegram API", "url": "https://api.telegram.org" },
     { "name": "Google", "url": "https://www.google.com/generate_204" },
     { "name": "Googlevideo", "url": "https://redirector.googlevideo.com/generate_204" }
   ]

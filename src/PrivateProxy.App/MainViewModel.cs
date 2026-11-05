@@ -196,6 +196,12 @@ public sealed class MainViewModel : INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// True when the engine should be started automatically on startup: either
+    /// the user asked for it explicitly, or it was running before shutdown.
+    /// </summary>
+    public bool ShouldAutoStartEngine => _settings.StartOnLaunch || _settings.EngineWasRunning;
+
     public bool AutostartEnabled
     {
         get => _autostartEnabled;
@@ -300,6 +306,11 @@ public sealed class MainViewModel : INotifyPropertyChanged
                 StatusDetail = outcome.Error ?? "неизвестная ошибка";
                 StatusBrush = (Brush)System.Windows.Application.Current.Resources["Red"];
             }
+            else
+            {
+                _settings.EngineWasRunning = true;
+                _settingsStore.Save(_settings);
+            }
         }
         finally
         {
@@ -319,6 +330,8 @@ public sealed class MainViewModel : INotifyPropertyChanged
         try
         {
             await _runner.StopAsync();
+            _settings.EngineWasRunning = false;
+            _settingsStore.Save(_settings);
         }
         finally
         {

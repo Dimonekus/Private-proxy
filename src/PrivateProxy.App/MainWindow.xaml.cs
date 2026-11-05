@@ -68,10 +68,10 @@ public partial class MainWindow : Window
         {
             await _viewModel.StartSelectedAsync(allowElevation: false);
         }
-        else if (_viewModel.StartOnLaunch && _viewModel.IsAdmin)
+        else if (_viewModel.ShouldAutoStartEngine && _viewModel.IsAdmin)
         {
-            // "Start on launch" is meant for the elevated scheduled task; a manual
-            // non-admin start should not surprise the user with a UAC prompt.
+            // Restore the previous working mode after a reboot, or honour the
+            // explicit "start on launch" setting.
             await _viewModel.StartSelectedAsync(allowElevation: false);
         }
 
