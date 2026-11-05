@@ -100,6 +100,11 @@ public sealed class SiteManager
         }
 
         value = value.Trim().Trim('.', '*').Trim();
+        if (value.StartsWith("www.", StringComparison.OrdinalIgnoreCase))
+        {
+            value = value[4..].Trim().Trim('.', '*').Trim();
+        }
+
         if (value.Length == 0 || !value.Contains('.') || value.Contains(' ') || value.Contains(':'))
         {
             return null;

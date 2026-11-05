@@ -463,9 +463,17 @@ public sealed class MainViewModel : INotifyPropertyChanged
             return;
         }
 
+        var existing = Sites.FirstOrDefault(s => string.Equals(s.Domain, normalized, StringComparison.OrdinalIgnoreCase));
+        if (existing is { Enabled: true })
+        {
+            NewSite = "";
+            SiteHint = $"Уже включён: {normalized}";
+            return;
+        }
+
         _siteManager.Add(normalized);
         NewSite = "";
-        SiteHint = "";
+        SiteHint = $"Добавлен: {normalized}";
         ReloadSites();
         Log.Info($"Добавлен сайт: {normalized}");
         await RestartEngineIfRunningAsync();

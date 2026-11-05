@@ -271,7 +271,8 @@
                                     <TextBlock Grid.Column="1" Text="{Binding Domain}" Margin="10,0,0,0"
                                                VerticalAlignment="Center" FontSize="13" />
                                     <Button Grid.Column="2" Content="✕" Click="RemoveSite_Click"
-                                            VerticalAlignment="Center" ToolTip="Удалить" Padding="6,2" FontSize="12">
+                                            VerticalAlignment="Center" ToolTip="Удалить насовсем"
+                                            Padding="6,2" FontSize="12" Foreground="{StaticResource Red}">
                                         <Button.Style>
                                             <Style TargetType="Button" BasedOn="{StaticResource LinkButton}">
                                                 <Setter Property="Visibility" Value="Visible" />
