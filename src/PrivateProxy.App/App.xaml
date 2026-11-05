@@ -173,6 +173,11 @@
                 <Setter Property="FontFamily" Value="Cascadia Mono, Consolas" />
                 <Setter Property="FontSize" Value="11.5" />
                 <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+                <!-- Virtualization fights the fast appends and auto-scroll, throwing
+                     "ItemsControl does not match its item source". Disable it: the log
+                     is capped at a few hundred lines, so there is nothing to win. -->
+                <Setter Property="VirtualizingPanel.IsVirtualizing" Value="False" />
+                <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
                 <Setter Property="ItemTemplate">
                     <Setter.Value>
                         <DataTemplate>

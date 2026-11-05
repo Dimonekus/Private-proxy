@@ -162,13 +162,20 @@ public partial class MainWindow : Window
 
     private void ScrollLogToEnd()
     {
-        if (!IsLoaded || LogList.Items.Count == 0)
+        try
         {
-            return;
-        }
+            if (!IsLoaded || LogList.Items.Count == 0)
+            {
+                return;
+            }
 
-        var scrollViewer = FindVisualChild<System.Windows.Controls.ScrollViewer>(LogList);
-        scrollViewer?.ScrollToEnd();
+            var scrollViewer = FindVisualChild<System.Windows.Controls.ScrollViewer>(LogList);
+            scrollViewer?.ScrollToEnd();
+        }
+        catch
+        {
+            // Auto-scroll must never take the app down, whatever the layout state is.
+        }
     }
 
     private void QueueScrollLogToEnd()

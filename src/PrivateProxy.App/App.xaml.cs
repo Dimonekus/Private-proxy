@@ -52,10 +52,9 @@ public partial class App : Application
 
     private void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
+        // Log only: a modal dialog here would spam and block the UI thread when
+        // an error repeats (as a layout/measure exception can).
         Log.Error("Необработанная ошибка: " + e.Exception);
-        MessageBox.Show(
-            "Произошла непредвиденная ошибка. Подробности — в журнале приложения.\n\n" + e.Exception.Message,
-            "Private Proxy", MessageBoxButton.OK, MessageBoxImage.Error);
         e.Handled = true;
     }
 
