@@ -6,7 +6,7 @@
       "name": "General · multisplit",
       "category": "General",
       "description": "Базовая стратегия: fake QUIC для UDP/443, multisplit с перекрытием последовательностей для TCP. Лучший старт для Discord + YouTube.",
-      "recommended": false,
+      "recommended": true,
       "args": [
         "--wf-tcp=80,443,2053,2083,2087,2096,8443",
         "--wf-udp=443,19294-19344,50000-50100",
@@ -92,7 +92,7 @@
       "name": "General · fake TLS + multidisorder",
       "category": "General",
       "description": "Агрессивнее: поддельный TLS ClientHello с рандомизацией SNI, badseq и multidisorder. Помогает там, где multisplit уже не проходит.",
-      "recommended": true,
+      "recommended": false,
       "args": [
         "--wf-tcp=80,443,2053,2083,2087,2096,8443",
         "--wf-udp=443,19294-19344,50000-50100",
