@@ -18,6 +18,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private readonly EngineLocator _engineLocator = new();
     private readonly StrategyTester _tester = new();
     private readonly WinwsRunner _runner = new();
+    private readonly SiteManager _siteManager = new();
     private readonly SynchronizationContext _ui;
     private readonly DispatcherTimer _uptimeTimer;
 
@@ -40,6 +41,8 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private bool _startOnLaunch;
     private bool _minimizeToTray = true;
     private bool _autostartEnabled;
+    private string _newSite = "";
+    private string _siteHint = "";
 
     public MainViewModel()
     {
@@ -61,6 +64,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public ObservableCollection<Strategy> Strategies { get; } = [];
     public ObservableCollection<string> Logs { get; } = [];
     public ObservableCollection<StrategyTestResult> TestResults { get; } = [];
+    public ObservableCollection<SiteEntry> Sites { get; } = [];
 
     /// <summary>Raised when an action needs administrator rights.</summary>
     public event Action<string>? ElevationRequested;
@@ -220,10 +224,23 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public string PrimaryActionText => IsRunning ? "Остановить" : "Запустить";
     public string AdminText => IsAdmin ? "права администратора есть" : "без прав администратора";
 
+    public string NewSite
+    {
+        get => _newSite;
+        set => SetField(ref _newSite, value);
+    }
+
+    public string SiteHint
+    {
+        get => _siteHint;
+        private set => SetField(ref _siteHint, value);
+    }
+
     public async Task InitializeAsync()
     {
         AppPaths.EnsureCreated();
         ListBootstrap.EnsureLists();
+        ReloadSites();
 
         _settings = _settingsStore.Load();
         _autoRestart = _settings.AutoRestart;
@@ -418,6 +435,57 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
         AutostartEnabled = !AutostartEnabled;
         return null;
+    }
+
+    public void ReloadSites()
+    {
+        Sites.Clear();
+        foreach (var site in _siteManager.Load())
+        {
+            Sites.Add(site);
+        }
+    }
+
+    public async Task ApplySiteToggleAsync(SiteEntry site)
+    {
+        _siteManager.SetEnabled(site.Domain, site.Enabled);
+        ReloadSites();
+        Log.Info($"Сайт {(site.Enabled ? "включён" : "выключен")}: {site.Domain}");
+        await RestartEngineIfRunningAsync();
+    }
+
+    public async Task AddSiteAsync()
+    {
+        var normalized = SiteManager.Normalize(NewSite);
+        if (normalized is null)
+        {
+            SiteHint = "Некорректный домен. Пример: example.com";
+            return;
+        }
+
+        _siteManager.Add(normalized);
+        NewSite = "";
+        SiteHint = "";
+        ReloadSites();
+        Log.Info($"Добавлен сайт: {normalized}");
+        await RestartEngineIfRunningAsync();
+    }
+
+    public async Task RemoveSiteAsync(SiteEntry site)
+    {
+        _siteManager.Remove(site.Domain);
+        ReloadSites();
+        Log.Info($"Удалён сайт: {site.Domain}");
+        await RestartEngineIfRunningAsync();
+    }
+
+    private async Task RestartEngineIfRunningAsync()
+    {
+        if (_runner.State == RunnerState.Running && SelectedStrategy is not null)
+        {
+            await _runner.StartAsync(SelectedStrategy, AppPaths.EngineDir, AutoRestart);
+            RefreshStatus();
+        }
     }
 
     public void SaveSettings() => _settingsStore.Save(_settings);

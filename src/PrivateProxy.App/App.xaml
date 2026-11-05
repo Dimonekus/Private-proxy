@@ -265,6 +265,55 @@
                 </Style.Triggers>
             </Style>
 
+            <Style TargetType="TabControl">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+
+            <Style TargetType="TabItem">
+                <Setter Property="Foreground" Value="{StaticResource Muted}" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="Padding" Value="16,9" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TabItem">
+                            <Border x:Name="Bd" Background="Transparent" Padding="{TemplateBinding Padding}"
+                                    BorderBrush="Transparent" BorderThickness="0,0,0,2" Margin="0,0,4,0">
+                                <ContentPresenter ContentSource="Header" HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Accent}" />
+                                    <Setter Property="Foreground" Value="{StaticResource Text}" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="{StaticResource Text}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="TextBox">
+                <Setter Property="Background" Value="{StaticResource Panel2}" />
+                <Setter Property="Foreground" Value="{StaticResource Text}" />
+                <Setter Property="BorderBrush" Value="{StaticResource Border}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="10,8" />
+                <Setter Property="CaretBrush" Value="{StaticResource Text}" />
+                <Setter Property="SelectionBrush" Value="{StaticResource Accent}" />
+                <Setter Property="FontSize" Value="13" />
+                <Style.Triggers>
+                    <Trigger Property="IsKeyboardFocused" Value="True">
+                        <Setter Property="BorderBrush" Value="{StaticResource Accent}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

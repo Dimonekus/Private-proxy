@@ -44,7 +44,9 @@
         </Grid>
 
         <!-- Main content -->
-        <Grid Grid.Row="1">
+        <TabControl Grid.Row="1">
+            <TabItem Header="Обход">
+                <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1.25*" />
                 <ColumnDefinition Width="16" />
@@ -211,7 +213,83 @@
 
                 </StackPanel>
             </ScrollViewer>
-        </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Сайты">
+                <Grid Margin="4,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Margin="0,0,0,12">
+                        <TextBlock Text="Сайты через обход" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,10" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding NewSite, UpdateSourceTrigger=PropertyChanged}"
+                                     KeyDown="NewSite_KeyDown" />
+                            <Button Grid.Column="2" Content="Добавить" Style="{StaticResource AccentButton}"
+                                    Click="AddSite_Click" />
+                        </Grid>
+                        <TextBlock Text="{Binding SiteHint}" Style="{StaticResource MutedText}" Margin="0,6,0,0" />
+                        <TextBlock Text="Галочка — сайт идёт через обход. Правки применяются сразу; если движок запущен, он перезапускается."
+                                   Style="{StaticResource MutedText}" Margin="0,4,0,0" TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <ListBox Grid.Row="1" ItemsSource="{Binding Sites}" Style="{StaticResource PlainListBox}"
+                             VirtualizingPanel.IsVirtualizing="False" ScrollViewer.CanContentScroll="False">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="Margin" Value="0,0,0,2" />
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox Grid.Column="0" IsChecked="{Binding Enabled, Mode=TwoWay}"
+                                              Click="SiteToggle_Click" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Domain}" Margin="10,0,0,0"
+                                               VerticalAlignment="Center" FontSize="13" />
+                                    <Button Grid.Column="2" Content="✕" Click="RemoveSite_Click"
+                                            VerticalAlignment="Center" ToolTip="Удалить" Padding="6,2" FontSize="12">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource LinkButton}">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsCustom}" Value="False">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
 
         <!-- Log -->
         <Border Grid.Row="3" Background="{StaticResource Panel}" CornerRadius="14"

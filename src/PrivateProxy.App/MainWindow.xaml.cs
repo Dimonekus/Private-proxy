@@ -111,6 +111,32 @@ public partial class MainWindow : Window
 
     private void ClearLog_Click(object sender, RoutedEventArgs e) => _viewModel.Logs.Clear();
 
+    private async void AddSite_Click(object sender, RoutedEventArgs e) => await _viewModel.AddSiteAsync();
+
+    private async void NewSite_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+        {
+            await _viewModel.AddSiteAsync();
+        }
+    }
+
+    private async void SiteToggle_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is System.Windows.Controls.CheckBox cb && cb.DataContext is PrivateProxy.Core.Models.SiteEntry site)
+        {
+            await _viewModel.ApplySiteToggleAsync(site);
+        }
+    }
+
+    private async void RemoveSite_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is System.Windows.Controls.Button btn && btn.DataContext is PrivateProxy.Core.Models.SiteEntry site)
+        {
+            await _viewModel.RemoveSiteAsync(site);
+        }
+    }
+
     private void OnElevationRequested(string arguments)
     {
         _viewModel.SaveSettings();
