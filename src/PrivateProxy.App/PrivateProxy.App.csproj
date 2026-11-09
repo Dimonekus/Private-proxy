@@ -11,7 +11,7 @@
     <AssemblyName>PrivateProxy</AssemblyName>
     <ApplicationIcon>app.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <NoWarn>$(NoWarn);WFAC010</NoWarn>
     <Authors>PrivateProxy</Authors>
     <Product>Private Proxy</Product>

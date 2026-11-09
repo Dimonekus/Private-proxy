@@ -48,6 +48,22 @@ powershell -ExecutionPolicy Bypass -File scripts\build.ps1 -Publish
 # результат: artifacts\PrivateProxy\PrivateProxy.exe
 ```
 
+### Установочный файл (для других компьютеров)
+
+Чтобы получить один `.exe`-установщик, который можно скопировать на любой
+Windows 10/11 x64 и поставить «как обычную программу» (в Program Files, с ярлыками
+и удалением через «Установка и удаление программ»), нужен [Inno Setup](https://jrsoftware.org/isinfo.php):
+
+```powershell
+# 1. Поставить Inno Setup 6 (один раз на машине сборки)
+powershell -ExecutionPolicy Bypass -File scripts\package.ps1
+# результат: artifacts\PrivateProxy-Setup-0.2.0.exe
+```
+
+Установщик самодостаточен: внутрь запакованы .NET-рантайм, движок `winws.exe`,
+WinDivert и списки. На целевом компьютере **не нужны** ни .NET, ни интернет — приложение
+работает сразу после установки.
+
 При первом запуске приложение скопирует списки в `%LOCALAPPDATA%\PrivateProxy\lists`.
 Дальше `winws.exe` читает именно эту копию, поэтому обновление приложения не затирает
 ваши правки.
