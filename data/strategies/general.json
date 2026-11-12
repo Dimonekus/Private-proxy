@@ -20,7 +20,7 @@
         "--ipset-exclude={LISTS}\\ipset-exclude.txt",
         "--ipset-exclude={LISTS}\\ipset-exclude-user.txt",
         "--dpi-desync=fake",
-        "--dpi-desync-repeats=6",
+        "--dpi-desync-repeats=11",
         "--dpi-desync-fake-quic={ENGINE}\\quic_initial_www_google_com.bin",
         "--new",
 
