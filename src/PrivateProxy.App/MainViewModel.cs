@@ -19,6 +19,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private readonly StrategyTester _tester = new();
     private readonly WinwsRunner _runner = new();
     private readonly SiteManager _siteManager = new();
+    private readonly DiagnosticsRunner _diagnostics = new();
     private readonly SynchronizationContext _ui;
     private readonly DispatcherTimer _uptimeTimer;
 
@@ -43,6 +44,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private bool _autostartEnabled;
     private string _newSite = "";
     private string _siteHint = "";
+    private string _diagnosticsStatus = "";
 
     public MainViewModel()
     {
@@ -65,6 +67,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public ObservableCollection<string> Logs { get; } = [];
     public ObservableCollection<StrategyTestResult> TestResults { get; } = [];
     public ObservableCollection<SiteEntry> Sites { get; } = [];
+    public ObservableCollection<DiagnosticResult> Diagnostics { get; } = [];
 
     /// <summary>Raised when an action needs administrator rights.</summary>
     public event Action<string>? ElevationRequested;
@@ -234,6 +237,12 @@ public sealed class MainViewModel : INotifyPropertyChanged
     {
         get => _siteHint;
         private set => SetField(ref _siteHint, value);
+    }
+
+    public string DiagnosticsStatus
+    {
+        get => _diagnosticsStatus;
+        private set => SetField(ref _diagnosticsStatus, value);
     }
 
     public async Task InitializeAsync()
@@ -493,6 +502,37 @@ public sealed class MainViewModel : INotifyPropertyChanged
         {
             await _runner.StartAsync(SelectedStrategy, AppPaths.EngineDir, AutoRestart);
             RefreshStatus();
+        }
+    }
+
+    public async Task RunDiagnosticsAsync()
+    {
+        if (IsBusy)
+        {
+            return;
+        }
+
+        IsBusy = true;
+        Diagnostics.Clear();
+        DiagnosticsStatus = "Проверка…";
+
+        try
+        {
+            var results = await _diagnostics.RunAsync(_engine);
+            foreach (var result in results)
+            {
+                Diagnostics.Add(result);
+            }
+
+            var fails = results.Count(r => r.Status == DiagnosticStatus.Fail);
+            var warns = results.Count(r => r.Status == DiagnosticStatus.Warn);
+            DiagnosticsStatus = fails == 0 && warns == 0
+                ? "Всё в порядке"
+                : $"{fails} ошибок, {warns} предупреждений";
+        }
+        finally
+        {
+            IsBusy = false;
         }
     }
 

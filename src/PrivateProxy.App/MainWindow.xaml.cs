@@ -94,6 +94,8 @@ public partial class MainWindow : Window
 
     private async void Test_Click(object sender, RoutedEventArgs e) => await _viewModel.TestAllAsync();
 
+    private async void Diagnostics_Click(object sender, RoutedEventArgs e) => await _viewModel.RunDiagnosticsAsync();
+
     private void RefreshEngine_Click(object sender, RoutedEventArgs e) => _viewModel.RefreshEngine();
 
     private void Autostart_Click(object sender, RoutedEventArgs e)

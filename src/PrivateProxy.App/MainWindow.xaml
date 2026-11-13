@@ -143,6 +143,9 @@
                             <Button Content="Тест стратегий" Style="{StaticResource BaseButton}" Margin="0,10,0,0"
                                     IsEnabled="{Binding CanTest}" Click="Test_Click" />
 
+                            <Button Content="Диагностика" Style="{StaticResource BaseButton}" Margin="0,10,0,0"
+                                    IsEnabled="{Binding CanTest}" Click="Diagnostics_Click" />
+
                             <TextBlock Text="{Binding TestStatus}" Style="{StaticResource MutedText}"
                                        TextWrapping="Wrap" Margin="0,10,0,0" />
                         </StackPanel>
@@ -205,6 +208,57 @@
                                                 </TextBlock>
                                             </StackPanel>
                                         </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{StaticResource Panel}" CornerRadius="14" Margin="0,14,0,0"
+                            BorderBrush="{StaticResource Border}" BorderThickness="1" Padding="16">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Diagnostics.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <StackPanel>
+                            <TextBlock Text="Диагностика" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,6" />
+                            <TextBlock Text="{Binding DiagnosticsStatus}" Style="{StaticResource MutedText}"
+                                       TextWrapping="Wrap" Margin="0,0,0,10" />
+                            <ItemsControl ItemsSource="{Binding Diagnostics}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,0,0,6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse Width="8" Height="8" VerticalAlignment="Center" Margin="0,0,8,0">
+                                                <Ellipse.Style>
+                                                    <Style TargetType="Ellipse">
+                                                        <Setter Property="Fill" Value="{StaticResource Green}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Warn">
+                                                                <Setter Property="Fill" Value="{StaticResource Amber}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Fail">
+                                                                <Setter Property="Fill" Value="{StaticResource Red}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Ellipse.Style>
+                                            </Ellipse>
+                                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="12" />
+                                                <TextBlock Text="{Binding Detail}" Foreground="{StaticResource Muted}"
+                                                           FontSize="12" Margin="6,0,0,0" />
+                                            </StackPanel>
+                                        </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
