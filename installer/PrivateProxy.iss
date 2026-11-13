@@ -2,7 +2,7 @@
 ; Build with: scripts\package.ps1  (runs ISCC.exe on this file)
 
 #define MyAppName "Private Proxy"
-#define MyAppVersion "0.2.0"
+#define MyAppVersion "0.3.0"
 #define MyAppPublisher "PrivateProxy"
 #define MyAppExeName "PrivateProxy.exe"
 
